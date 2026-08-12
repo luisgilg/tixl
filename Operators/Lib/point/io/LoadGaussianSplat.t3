@@ -1,0 +1,12 @@
+{
+  "FormatVersion": 3,
+  "Id": "740960bb-9029-463f-9543-fda43e48ff17"/*LoadGaussianSplat*/,
+  "Inputs": [
+    {
+      "Id": "5cc67374-1114-48f6-be01-b2edb4770b55"/*Path*/,
+      "DefaultValue": ""
+    }
+  ],
+  "Children": [],
+  "Connections": []
+}
