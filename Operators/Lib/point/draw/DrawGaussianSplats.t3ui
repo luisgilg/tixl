@@ -1,0 +1,103 @@
+{
+  "FormatVersion": 3,
+  "Id": "85d6ce29-d4f8-4bb3-84ef-05f88ce269c6"/*DrawGaussianSplats*/,
+  "Description": "Draws TiXL points as anisotropic Gaussian splats.\n\nThis MVP renderer consumes the standard Point buffer used by [LoadGaussianSplat], projects each point's orientation and scale into screen space, and evaluates a constant-color Gaussian footprint per pixel. Sorting and view-dependent SH lighting are intentionally left to later milestones.\n\nAKA: 3DGS, Gaussian Splatting",
+  "SymbolTags": "1",
+  "InputUis": [
+    {
+      "InputId": "138a7e18-6cfe-4afb-8401-02e28a27087a"/*Alpha*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 160.0
+      },
+      "GroupTitle": "Appearance",
+      "Description": "Multiplies the opacity stored in Point.Color.a.",
+      "Min": 0.0,
+      "Max": 2.0
+    },
+    {
+      "InputId": "283c5376-fcc2-4aae-a1cb-4ad5876b5678"/*SigmaRadius*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 120.0
+      },
+      "Description": "The number of standard deviations covered by the generated quad.",
+      "Min": 0.5,
+      "Max": 6.0
+    },
+    {
+      "InputId": "3c35907c-029b-48eb-9863-eaf37eef4d7f"/*AlphaCutoff*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 200.0
+      },
+      "Description": "Discards very transparent Gaussian fragments.",
+      "Min": 0.0,
+      "Max": 0.1
+    },
+    {
+      "InputId": "43b623de-9edb-4bad-a633-880170d624ce"/*GPoints*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 0.0
+      },
+      "Description": "The TiXL Point buffer to render as Gaussian splats."
+    },
+    {
+      "InputId": "48a01244-bdcd-40c4-b2bc-8c5cafcf6098"/*CameraReference*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 280.0
+      },
+      "GroupTitle": "Camera",
+      "Description": "Optional camera reference. If disconnected, the current evaluation camera is used."
+    },
+    {
+      "InputId": "6b49399a-51c7-4b70-b4b2-5e6021280ada"/*BlendMode*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 360.0
+      },
+      "GroupTitle": "Draw Settings",
+      "Description": "Selects the blend mode used for compositing splats."
+    },
+    {
+      "InputId": "7e17fb74-0585-498b-bd1e-8c17d3de5098"/*EnableDepthTest*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 440.0
+      },
+      "Description": "Tests splats against the current depth buffer."
+    },
+    {
+      "InputId": "c9dfc67c-b89e-4762-8203-718dedaf223b"/*Scale*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 80.0
+      },
+      "Description": "Multiplies Point.Scale before covariance projection.",
+      "Min": 0.0,
+      "Max": 5.0,
+      "Format": "{0:0.000} x"
+    },
+    {
+      "InputId": "ef885146-5ca2-4f9c-8e95-86b09819324c"/*EnableDepthWrite*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 400.0
+      },
+      "Description": "Writes splats to the depth buffer. This is off by default because transparent splats need sorting."
+    }
+  ],
+  "SymbolChildUis": [],
+  "OutputUis": [
+    {
+      "OutputId": "6bb912b7-46d9-4327-bfa1-786ab2526412"/*Output*/,
+      "Position": {
+        "X": 140.0,
+        "Y": 0.0
+      }
+    }
+  ]
+}

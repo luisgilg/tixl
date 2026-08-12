@@ -1,0 +1,44 @@
+{
+  "FormatVersion": 3,
+  "Id": "85d6ce29-d4f8-4bb3-84ef-05f88ce269c6"/*DrawGaussianSplats*/,
+  "Inputs": [
+    {
+      "Id": "138a7e18-6cfe-4afb-8401-02e28a27087a"/*Alpha*/,
+      "DefaultValue": 1.0
+    },
+    {
+      "Id": "283c5376-fcc2-4aae-a1cb-4ad5876b5678"/*SigmaRadius*/,
+      "DefaultValue": 3.0
+    },
+    {
+      "Id": "3c35907c-029b-48eb-9863-eaf37eef4d7f"/*AlphaCutoff*/,
+      "DefaultValue": 0.001
+    },
+    {
+      "Id": "43b623de-9edb-4bad-a633-880170d624ce"/*GPoints*/,
+      "DefaultValue": null
+    },
+    {
+      "Id": "48a01244-bdcd-40c4-b2bc-8c5cafcf6098"/*CameraReference*/,
+      "DefaultValue": null
+    },
+    {
+      "Id": "6b49399a-51c7-4b70-b4b2-5e6021280ada"/*BlendMode*/,
+      "DefaultValue": 0
+    },
+    {
+      "Id": "7e17fb74-0585-498b-bd1e-8c17d3de5098"/*EnableDepthTest*/,
+      "DefaultValue": true
+    },
+    {
+      "Id": "c9dfc67c-b89e-4762-8203-718dedaf223b"/*Scale*/,
+      "DefaultValue": 1.0
+    },
+    {
+      "Id": "ef885146-5ca2-4f9c-8e95-86b09819324c"/*EnableDepthWrite*/,
+      "DefaultValue": false
+    }
+  ],
+  "Children": [],
+  "Connections": []
+}
