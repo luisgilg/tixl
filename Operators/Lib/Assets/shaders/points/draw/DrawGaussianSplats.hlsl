@@ -31,6 +31,16 @@ cbuffer Params : register(b1)
     float SigmaRadius;
     float Alpha;
     float AlphaCutoff;
+    float RenderMode;
+    float NearDepth;
+    float MaxRadiusPixels;
+    float ConstantWorldScale;
+    float MaxWorldScale;
+    float _padding0;
+    float _padding1;
+    float _padding2;
+    float2 ScreenSize;
+    float2 _padding;
 };
 
 cbuffer FogParams : register(b2)
@@ -53,21 +63,7 @@ StructuredBuffer<Point> Points : t0;
 float2 ProjectToNdc(float3 objectPosition)
 {
     float4 clip = mul(float4(objectPosition, 1), ObjectToClipSpace);
-    return clip.xy / max(abs(clip.w), 0.00001);
-}
-
-float3x3 RotationMatrixFromQuaternion(float4 q)
-{
-    q = normalize(q);
-    float x = q.x;
-    float y = q.y;
-    float z = q.z;
-    float w = q.w;
-
-    return float3x3(
-        1 - 2 * (y * y + z * z), 2 * (x * y - z * w), 2 * (x * z + y * w),
-        2 * (x * y + z * w), 1 - 2 * (x * x + z * z), 2 * (y * z - x * w),
-        2 * (x * z - y * w), 2 * (y * z + x * w), 1 - 2 * (x * x + y * y));
+    return clip.xy / clip.w;
 }
 
 void GetEigenBasis(float a, float b, float c, out float2 axis0, out float2 axis1, out float lambda0, out float lambda1)
@@ -81,6 +77,11 @@ void GetEigenBasis(float a, float b, float c, out float2 axis0, out float2 axis1
     axis1 = float2(-axis0.y, axis0.x);
 }
 
+bool IsValidFinite(float4 value)
+{
+    return all(value == value) && all(abs(value) < 1e20);
+}
+
 psInput vsMain(uint id : SV_VertexID)
 {
     psInput output;
@@ -91,14 +92,41 @@ psInput vsMain(uint id : SV_VertexID)
 
     Point p = Points[pointId];
     float3 centerObject = p.Position;
+    float4 centerCamera = mul(float4(centerObject, 1), ObjectToCamera);
+    bool isVisibleDepth = centerCamera.z < -max(NearDepth, 0.0001);
+
+    if (!isVisibleDepth)
+    {
+        output.position = float4(0, 0, 0, 0);
+        output.gaussianUv = 1000;
+        output.color = 0;
+        output.fog = 0;
+        return output;
+    }
+
     float2 centerNdc = ProjectToNdc(centerObject);
 
-    float3x3 rotation = RotationMatrixFromQuaternion(p.Rotation);
-    float3 scale = max(abs(p.Scale * Scale), 0.000001);
+    float3 axisX = float3(1, 0, 0);
+    float3 axisY = float3(0, 1, 0);
+    float3 axisZ = float3(0, 0, 1);
+    if (RenderMode > 1.5)
+    {
+        axisX = qRotateVec3(axisX, p.Rotation);
+        axisY = qRotateVec3(axisY, p.Rotation);
+        axisZ = qRotateVec3(axisZ, p.Rotation);
+    }
 
-    float2 screenAxisX = ProjectToNdc(centerObject + rotation[0] * scale.x) - centerNdc;
-    float2 screenAxisY = ProjectToNdc(centerObject + rotation[1] * scale.y) - centerNdc;
-    float2 screenAxisZ = ProjectToNdc(centerObject + rotation[2] * scale.z) - centerNdc;
+    float3 scale = RenderMode < 0.5 ? ConstantWorldScale.xxx : p.Scale;
+    scale = abs(scale);
+    if (MaxWorldScale > 0)
+    {
+        scale = min(scale, MaxWorldScale.xxx);
+    }
+    scale = max(scale * Scale, 0.000001);
+
+    float2 screenAxisX = ProjectToNdc(centerObject + axisX * scale.x) - centerNdc;
+    float2 screenAxisY = ProjectToNdc(centerObject + axisY * scale.y) - centerNdc;
+    float2 screenAxisZ = ProjectToNdc(centerObject + axisZ * scale.z) - centerNdc;
 
     float a = dot(float3(screenAxisX.x, screenAxisY.x, screenAxisZ.x), float3(screenAxisX.x, screenAxisY.x, screenAxisZ.x));
     float b = dot(float3(screenAxisX.x, screenAxisY.x, screenAxisZ.x), float3(screenAxisX.y, screenAxisY.y, screenAxisZ.y));
@@ -112,6 +140,20 @@ psInput vsMain(uint id : SV_VertexID)
 
     float radius0 = sqrt(lambda0) * SigmaRadius;
     float radius1 = sqrt(lambda1) * SigmaRadius;
+    float maxRadiusNdc = MaxRadiusPixels * 2 / max(min(ScreenSize.x, ScreenSize.y), 1);
+    radius0 = min(radius0, maxRadiusNdc);
+    radius1 = min(radius1, maxRadiusNdc);
+
+    bool isFinite = IsValidFinite(float4(centerNdc, radius0, radius1)) && IsValidFinite(float4(axis0, axis1));
+    if (!isFinite || radius0 <= 0 || radius1 <= 0)
+    {
+        output.position = float4(0, 0, 0, 0);
+        output.gaussianUv = 1000;
+        output.color = 0;
+        output.fog = 0;
+        return output;
+    }
+
     float2 ndcOffset = axis0 * corner.x * radius0 + axis1 * corner.y * radius1;
 
     float4 centerClip = mul(float4(centerObject, 1), ObjectToClipSpace);
@@ -119,7 +161,6 @@ psInput vsMain(uint id : SV_VertexID)
     output.gaussianUv = corner * SigmaRadius;
     output.color = float4(p.Color.rgb, p.Color.a * Alpha);
 
-    float4 centerCamera = mul(float4(centerObject, 1), ObjectToCamera);
     output.fog = pow(saturate(-centerCamera.z / FogDistance), FogBias);
 
     return output;

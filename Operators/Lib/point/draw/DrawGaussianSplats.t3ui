@@ -8,7 +8,7 @@
       "InputId": "138a7e18-6cfe-4afb-8401-02e28a27087a"/*Alpha*/,
       "Position": {
         "X": -200.0,
-        "Y": 160.0
+        "Y": 200.0
       },
       "GroupTitle": "Appearance",
       "Description": "Multiplies the opacity stored in Point.Color.a.",
@@ -19,17 +19,45 @@
       "InputId": "283c5376-fcc2-4aae-a1cb-4ad5876b5678"/*SigmaRadius*/,
       "Position": {
         "X": -200.0,
-        "Y": 120.0
+        "Y": 160.0
       },
       "Description": "The number of standard deviations covered by the generated quad.",
       "Min": 0.5,
       "Max": 6.0
     },
     {
+      "InputId": "9147b324-5063-49a6-b8ec-61f21d168478"/*ConstantWorldScale*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 120.0
+      },
+      "Description": "World-space scale used by the constant-scale diagnostic mode.",
+      "Min": 0.0001,
+      "Max": 0.1
+    },
+    {
+      "InputId": "3cee476c-973e-44d0-bce0-817371206e1a"/*MaxWorldScale*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 280.0
+      },
+      "Description": "Clamps Point.Scale in world units before projection. Set to 0 to disable.",
+      "Min": 0.0,
+      "Max": 1.0
+    },
+    {
+      "InputId": "9ed71782-d249-4d59-9f85-6dc4c33aeb11"/*RenderMode*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 40.0
+      },
+      "Description": "Diagnostic mode for isolating projection, scale, and orientation issues."
+    },
+    {
       "InputId": "3c35907c-029b-48eb-9863-eaf37eef4d7f"/*AlphaCutoff*/,
       "Position": {
         "X": -200.0,
-        "Y": 200.0
+        "Y": 240.0
       },
       "Description": "Discards very transparent Gaussian fragments.",
       "Min": 0.0,
@@ -48,7 +76,7 @@
       "InputId": "48a01244-bdcd-40c4-b2bc-8c5cafcf6098"/*CameraReference*/,
       "Position": {
         "X": -200.0,
-        "Y": 280.0
+        "Y": 360.0
       },
       "GroupTitle": "Camera",
       "Description": "Optional camera reference. If disconnected, the current evaluation camera is used."
@@ -57,7 +85,7 @@
       "InputId": "6b49399a-51c7-4b70-b4b2-5e6021280ada"/*BlendMode*/,
       "Position": {
         "X": -200.0,
-        "Y": 360.0
+        "Y": 440.0
       },
       "GroupTitle": "Draw Settings",
       "Description": "Selects the blend mode used for compositing splats."
@@ -66,7 +94,7 @@
       "InputId": "7e17fb74-0585-498b-bd1e-8c17d3de5098"/*EnableDepthTest*/,
       "Position": {
         "X": -200.0,
-        "Y": 440.0
+        "Y": 520.0
       },
       "Description": "Tests splats against the current depth buffer."
     },
@@ -85,9 +113,30 @@
       "InputId": "ef885146-5ca2-4f9c-8e95-86b09819324c"/*EnableDepthWrite*/,
       "Position": {
         "X": -200.0,
-        "Y": 400.0
+        "Y": 480.0
       },
       "Description": "Writes splats to the depth buffer. This is off by default because transparent splats need sorting."
+    },
+    {
+      "InputId": "61d0f95c-36a8-444a-91d4-cb2103a9526e"/*NearDepth*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 560.0
+      },
+      "GroupTitle": "Diagnostics",
+      "Description": "Rejects Gaussians closer than this positive camera-space depth.",
+      "Min": 0.0001,
+      "Max": 0.2
+    },
+    {
+      "InputId": "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de"/*MaxRadiusPixels*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 600.0
+      },
+      "Description": "Caps projected ellipse radius to prevent near-camera blowups.",
+      "Min": 1.0,
+      "Max": 1024.0
     }
   ],
   "SymbolChildUis": [],

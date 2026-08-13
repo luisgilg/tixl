@@ -168,6 +168,12 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
                                  SigmaRadius = SigmaRadius.GetValue(context),
                                  Alpha = Alpha.GetValue(context),
                                  AlphaCutoff = AlphaCutoff.GetValue(context),
+                                 RenderMode = (float)RenderMode.GetEnumValue<RenderModes>(context),
+                                 NearDepth = NearDepth.GetValue(context),
+                                 MaxRadiusPixels = MaxRadiusPixels.GetValue(context),
+                                 ConstantWorldScale = ConstantWorldScale.GetValue(context),
+                                 MaxWorldScale = MaxWorldScale.GetValue(context),
+                                 ScreenSize = new Vector2(context.RequestedResolution.Width, context.RequestedResolution.Height),
                              };
 
         ResourceManager.UpdateConstBuffer(transformData, _transformBuffer!);
@@ -248,6 +254,23 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         public float SigmaRadius;
         public float Alpha;
         public float AlphaCutoff;
+        public float RenderMode;
+        public float NearDepth;
+        public float MaxRadiusPixels;
+        public float ConstantWorldScale;
+        public float MaxWorldScale;
+        private float _padding0;
+        private float _padding1;
+        private float _padding2;
+        public Vector2 ScreenSize;
+        private Vector2 _padding;
+    }
+
+    private enum RenderModes
+    {
+        ConstantScaleIdentity,
+        PointScaleIdentity,
+        PointScaleOrientation,
     }
 
     private const int VerticesPerSplat = 6;
@@ -300,4 +323,19 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
 
     [Input(Guid = "7e17fb74-0585-498b-bd1e-8c17d3de5098")]
     public readonly InputSlot<bool> EnableDepthTest = new();
+
+    [Input(Guid = "9ed71782-d249-4d59-9f85-6dc4c33aeb11", MappedType = typeof(RenderModes))]
+    public readonly InputSlot<int> RenderMode = new();
+
+    [Input(Guid = "61d0f95c-36a8-444a-91d4-cb2103a9526e")]
+    public readonly InputSlot<float> NearDepth = new();
+
+    [Input(Guid = "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de")]
+    public readonly InputSlot<float> MaxRadiusPixels = new();
+
+    [Input(Guid = "9147b324-5063-49a6-b8ec-61f21d168478")]
+    public readonly InputSlot<float> ConstantWorldScale = new();
+
+    [Input(Guid = "3cee476c-973e-44d0-bce0-817371206e1a")]
+    public readonly InputSlot<float> MaxWorldScale = new();
 }

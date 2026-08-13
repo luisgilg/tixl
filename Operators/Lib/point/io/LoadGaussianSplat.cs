@@ -45,11 +45,13 @@ internal sealed class LoadGaussianSplat : Instance<LoadGaussianSplat>, IDescript
             }
 
             var points = new Point[vertexCount];
-            ReadPoints(fileStream, points);
+            ReadPoints(fileStream, points, out var scaleStats, out var rawScaleStats);
             newValue = new GaussianSplatData(points);
             failureReason = null;
             _warningMessage = string.Empty;
             Log.Debug($"Loaded {vertexCount} Gaussian splats from '{file.AbsolutePath}'.", this);
+            Log.Debug($"Point.Scale stats: {scaleStats}", this);
+            Log.Debug($"Raw log-scale stats: {rawScaleStats}", this);
             return true;
         }
         catch (Exception e)
@@ -74,9 +76,12 @@ internal sealed class LoadGaussianSplat : Instance<LoadGaussianSplat>, IDescript
         }
     }
 
-    private static void ReadPoints(Stream stream, Point[] points)
+    private static void ReadPoints(Stream stream, Point[] points, out ScaleStats scaleStats, out ScaleStats rawScaleStats)
     {
         var recordBytes = new byte[RecordSizeInBytes];
+        var scaleValues = new float[points.Length * 3];
+        var rawScaleValues = new float[points.Length * 3];
+
         for (var pointIndex = 0; pointIndex < points.Length; pointIndex++)
         {
             stream.ReadExactly(recordBytes);
@@ -89,15 +94,28 @@ internal sealed class LoadGaussianSplat : Instance<LoadGaussianSplat>, IDescript
             var orientation = new Quaternion(rotX, rotY, rotZ, rotW);
             orientation = orientation.LengthSquared() > 0 ? Quaternion.Normalize(orientation) : Quaternion.Identity;
 
+            var rawScale0 = ReadFloat(recordBytes, 55);
+            var rawScale1 = ReadFloat(recordBytes, 56);
+            var rawScale2 = ReadFloat(recordBytes, 57);
+            var scale0 = MathF.Exp(rawScale0);
+            var scale1 = MathF.Exp(rawScale1);
+            var scale2 = MathF.Exp(rawScale2);
+
+            var scaleValueIndex = pointIndex * 3;
+            rawScaleValues[scaleValueIndex] = rawScale0;
+            rawScaleValues[scaleValueIndex + 1] = rawScale1;
+            rawScaleValues[scaleValueIndex + 2] = rawScale2;
+            scaleValues[scaleValueIndex] = scale0;
+            scaleValues[scaleValueIndex + 1] = scale1;
+            scaleValues[scaleValueIndex + 2] = scale2;
+
             points[pointIndex] = new Point
                                      {
                                          Position = new Vector3(ReadFloat(recordBytes, 0),
                                                                 ReadFloat(recordBytes, 1),
                                                                 ReadFloat(recordBytes, 2)),
                                          Orientation = orientation,
-                                         Scale = new Vector3(MathF.Exp(ReadFloat(recordBytes, 55)),
-                                                             MathF.Exp(ReadFloat(recordBytes, 56)),
-                                                             MathF.Exp(ReadFloat(recordBytes, 57))),
+                                         Scale = new Vector3(scale0, scale1, scale2),
                                          Color = new Vector4(ToRgb(ReadFloat(recordBytes, 6)),
                                                              ToRgb(ReadFloat(recordBytes, 7)),
                                                              ToRgb(ReadFloat(recordBytes, 8)),
@@ -106,6 +124,9 @@ internal sealed class LoadGaussianSplat : Instance<LoadGaussianSplat>, IDescript
                                          F2 = 1
                                      };
         }
+
+        scaleStats = ScaleStats.Create(scaleValues);
+        rawScaleStats = ScaleStats.Create(rawScaleValues);
     }
 
     private static bool TryReadHeader(Stream stream, out int vertexCount, [NotNullWhen(false)] out string? failureReason)
@@ -304,6 +325,31 @@ internal sealed class LoadGaussianSplat : Instance<LoadGaussianSplat>, IDescript
         public void Dispose()
         {
             PointBuffer.Dispose();
+        }
+    }
+
+    private readonly record struct ScaleStats(float Min, float Median, float P95, float P99, float Max)
+    {
+        public static ScaleStats Create(float[] values)
+        {
+            Array.Sort(values);
+            return new ScaleStats(values[0],
+                                  Sample(values, 0.5f),
+                                  Sample(values, 0.95f),
+                                  Sample(values, 0.99f),
+                                  values[^1]);
+        }
+
+        public override string ToString()
+        {
+            return $"min={Min:0.########e+0}, median={Median:0.########e+0}, p95={P95:0.########e+0}, p99={P99:0.########e+0}, max={Max:0.########e+0}";
+        }
+
+        private static float Sample(float[] values, float percentile)
+        {
+            var index = (int)MathF.Round((values.Length - 1) * percentile);
+            index = Math.Clamp(index, 0, values.Length - 1);
+            return values[index];
         }
     }
 
