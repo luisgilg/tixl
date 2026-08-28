@@ -26,13 +26,13 @@
       "Max": 6.0
     },
     {
-      "InputId": "9147b324-5063-49a6-b8ec-61f21d168478"/*ConstantWorldScale*/,
+      "InputId": "3c35907c-029b-48eb-9863-eaf37eef4d7f"/*AlphaCutoff*/,
       "Position": {
         "X": -200.0,
-        "Y": 120.0
+        "Y": 240.0
       },
-      "Description": "World-space scale used by the constant-scale diagnostic mode.",
-      "Min": 0.0001,
+      "Description": "Discards very transparent Gaussian fragments.",
+      "Min": 0.0,
       "Max": 0.1
     },
     {
@@ -44,24 +44,6 @@
       "Description": "Clamps Point.Scale in world units before projection. Set to 0 to disable.",
       "Min": 0.0,
       "Max": 1.0
-    },
-    {
-      "InputId": "9ed71782-d249-4d59-9f85-6dc4c33aeb11"/*RenderMode*/,
-      "Position": {
-        "X": -200.0,
-        "Y": 40.0
-      },
-      "Description": "Diagnostic mode for isolating projection, scale, and orientation issues."
-    },
-    {
-      "InputId": "3c35907c-029b-48eb-9863-eaf37eef4d7f"/*AlphaCutoff*/,
-      "Position": {
-        "X": -200.0,
-        "Y": 240.0
-      },
-      "Description": "Discards very transparent Gaussian fragments.",
-      "Min": 0.0,
-      "Max": 0.1
     },
     {
       "InputId": "43b623de-9edb-4bad-a633-880170d624ce"/*GPoints*/,
@@ -82,6 +64,27 @@
       "Description": "Optional camera reference. If disconnected, the current evaluation camera is used."
     },
     {
+      "InputId": "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de"/*MaxRadiusPixels*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 600.0
+      },
+      "Description": "Caps projected ellipse radius to prevent near-camera blowups.",
+      "Min": 1.0,
+      "Max": 1024.0
+    },
+    {
+      "InputId": "61d0f95c-36a8-444a-91d4-cb2103a9526e"/*NearDepth*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 560.0
+      },
+      "GroupTitle": "Diagnostics",
+      "Description": "Rejects Gaussians closer than this positive camera-space depth.",
+      "Min": 0.0001,
+      "Max": 0.2
+    },
+    {
       "InputId": "6b49399a-51c7-4b70-b4b2-5e6021280ada"/*BlendMode*/,
       "Position": {
         "X": -200.0,
@@ -97,6 +100,24 @@
         "Y": 520.0
       },
       "Description": "Tests splats against the current depth buffer."
+    },
+    {
+      "InputId": "9147b324-5063-49a6-b8ec-61f21d168478"/*ConstantWorldScale*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 120.0
+      },
+      "Description": "World-space scale used by the constant-scale diagnostic mode.",
+      "Min": 0.0001,
+      "Max": 0.1
+    },
+    {
+      "InputId": "9ed71782-d249-4d59-9f85-6dc4c33aeb11"/*RenderMode*/,
+      "Position": {
+        "X": -200.0,
+        "Y": 40.0
+      },
+      "Description": "Diagnostic mode for isolating projection, scale, and orientation issues."
     },
     {
       "InputId": "c9dfc67c-b89e-4762-8203-718dedaf223b"/*Scale*/,
@@ -116,27 +137,6 @@
         "Y": 480.0
       },
       "Description": "Writes splats to the depth buffer. This is off by default because transparent splats need sorting."
-    },
-    {
-      "InputId": "61d0f95c-36a8-444a-91d4-cb2103a9526e"/*NearDepth*/,
-      "Position": {
-        "X": -200.0,
-        "Y": 560.0
-      },
-      "GroupTitle": "Diagnostics",
-      "Description": "Rejects Gaussians closer than this positive camera-space depth.",
-      "Min": 0.0001,
-      "Max": 0.2
-    },
-    {
-      "InputId": "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de"/*MaxRadiusPixels*/,
-      "Position": {
-        "X": -200.0,
-        "Y": 600.0
-      },
-      "Description": "Caps projected ellipse radius to prevent near-camera blowups.",
-      "Min": 1.0,
-      "Max": 1024.0
     }
   ],
   "SymbolChildUis": [],

@@ -1,6 +1,7 @@
 #nullable enable
 using T3.Core.Rendering;
 using T3.Core.Utils;
+using BlendStateDescription = SharpDX.Direct3D11.BlendStateDescription;
 using DepthStencilStateDescription = SharpDX.Direct3D11.DepthStencilStateDescription;
 using DepthWriteMask = SharpDX.Direct3D11.DepthWriteMask;
 using RasterizerStateDescription = SharpDX.Direct3D11.RasterizerStateDescription;
@@ -151,6 +152,21 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             _rasterizerState = new RasterizerState(ResourceManager.Device, rasterizerDescription);
         }
 
+        if (_premultipliedBlendState == null || _premultipliedBlendState.IsDisposed)
+        {
+            var blendStateDescription = new BlendStateDescription();
+            blendStateDescription.RenderTarget[0].IsBlendEnabled = true;
+            blendStateDescription.RenderTarget[0].SourceBlend = BlendOption.One;
+            blendStateDescription.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
+            blendStateDescription.RenderTarget[0].BlendOperation = BlendOperation.Add;
+            blendStateDescription.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
+            blendStateDescription.RenderTarget[0].DestinationAlphaBlend = BlendOption.InverseSourceAlpha;
+            blendStateDescription.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
+            blendStateDescription.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
+            blendStateDescription.AlphaToCoverageEnable = false;
+            _premultipliedBlendState = new BlendState(ResourceManager.Device, blendStateDescription);
+        }
+
         _constantBuffers[0] = _transformBuffer;
         _constantBuffers[1] = _paramsBuffer;
         _constantBuffers[2] = null;
@@ -205,7 +221,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
                    {
                        SharedEnums.BlendModes.Additive => DefaultRenderingStates.AdditiveBlendState,
                        SharedEnums.BlendModes.None => DefaultRenderingStates.DisabledBlendState,
-                       _ => DefaultRenderingStates.DefaultBlendState
+                       _ => _premultipliedBlendState!
                    };
     }
 
@@ -216,7 +232,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             return DefaultRenderingStates.DisabledDepthStencilState;
         }
 
-        return EnableDepthWrite.Value ? DefaultRenderingStates.DefaultDepthStencilState : _depthReadOnlyState!;
+        return _depthReadOnlyState!;
     }
 
     private static Buffer CreateConstantBuffer<T>() where T : unmanaged
@@ -242,6 +258,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             _paramsBuffer?.Dispose();
             _depthReadOnlyState?.Dispose();
             _rasterizerState?.Dispose();
+            _premultipliedBlendState?.Dispose();
         }
 
         base.Dispose(disposing);
@@ -282,6 +299,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
     private Buffer? _paramsBuffer;
     private DepthStencilState? _depthReadOnlyState;
     private RasterizerState? _rasterizerState;
+    private BlendState? _premultipliedBlendState;
     private readonly Buffer?[] _constantBuffers = new Buffer?[3];
 
     private PrimitiveTopology _previousTopology;

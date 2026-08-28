@@ -15,12 +15,24 @@
       "DefaultValue": 0.001
     },
     {
+      "Id": "3cee476c-973e-44d0-bce0-817371206e1a"/*MaxWorldScale*/,
+      "DefaultValue": 0.0
+    },
+    {
       "Id": "43b623de-9edb-4bad-a633-880170d624ce"/*GPoints*/,
       "DefaultValue": null
     },
     {
       "Id": "48a01244-bdcd-40c4-b2bc-8c5cafcf6098"/*CameraReference*/,
       "DefaultValue": null
+    },
+    {
+      "Id": "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de"/*MaxRadiusPixels*/,
+      "DefaultValue": 0.0
+    },
+    {
+      "Id": "61d0f95c-36a8-444a-91d4-cb2103a9526e"/*NearDepth*/,
+      "DefaultValue": 0.01
     },
     {
       "Id": "6b49399a-51c7-4b70-b4b2-5e6021280ada"/*BlendMode*/,
@@ -35,12 +47,8 @@
       "DefaultValue": 0.01
     },
     {
-      "Id": "3cee476c-973e-44d0-bce0-817371206e1a"/*MaxWorldScale*/,
-      "DefaultValue": 0.25
-    },
-    {
       "Id": "9ed71782-d249-4d59-9f85-6dc4c33aeb11"/*RenderMode*/,
-      "DefaultValue": 0
+      "DefaultValue": 2
     },
     {
       "Id": "c9dfc67c-b89e-4762-8203-718dedaf223b"/*Scale*/,
@@ -49,14 +57,6 @@
     {
       "Id": "ef885146-5ca2-4f9c-8e95-86b09819324c"/*EnableDepthWrite*/,
       "DefaultValue": false
-    },
-    {
-      "Id": "61d0f95c-36a8-444a-91d4-cb2103a9526e"/*NearDepth*/,
-      "DefaultValue": 0.01
-    },
-    {
-      "Id": "5c1d7c14-fd03-4c2c-9bb2-b1077e2e78de"/*MaxRadiusPixels*/,
-      "DefaultValue": 256.0
     }
   ],
   "Children": [],
