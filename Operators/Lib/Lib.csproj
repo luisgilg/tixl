@@ -118,6 +118,7 @@
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.13.0.20260627" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.6" />
     <PackageReference Include="Svg" Version="3.4.8" />
+    <PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
   </ItemGroup>
   <!-- Copy package content into this project's own output only (not transitively to other projects).
        Uses a custom Target instead of <Content CopyToOutputDirectory> to prevent MSBuild from
