@@ -1,0 +1,45 @@
+{
+  "FormatVersion": 3,
+  "Id": "d93d39c1-b79a-4b86-82cd-4dcba13bbbd0"/*GaussianSplatViewer*/,
+  "Description": "A minimal viewer for TiXL's experimental Gaussian Splat support. Load a garden SPZ with [LoadGaussianSplat], sort it for the active view, and inspect it with an orbital camera.",
+  "InputUis": [],
+  "SymbolChildUis": [
+    {
+      "ChildId": "102c2f5a-ee50-4868-a331-384c8ffba37c"/*LoadGaussianSplat*/,
+      "Comment": "Place a compact Mip-NeRF 360 garden export at Assets/gaussian-splats/garden.spz, or select another .spz/.ply here. The reference asset is not included to keep the repository small.",
+      "Position": { "X": 0.0, "Y": 0.0 }
+    },
+    {
+      "ChildId": "2cb2ce23-ff2a-4618-a126-682fd7becc24"/*SortGaussianSplats*/,
+      "Comment": "Transparent splats must be sorted back-to-front for the current camera.",
+      "Position": { "X": 190.0, "Y": 0.0 }
+    },
+    {
+      "ChildId": "4a572f09-a192-460d-8442-9c7bff5cb1d5"/*DrawGaussianSplats*/,
+      "Position": { "X": 380.0, "Y": 0.0 }
+    },
+    {
+      "ChildId": "69b0a78c-eb6f-46aa-b1b1-7368ae06dcf7"/*Group*/,
+      "Position": { "X": 570.0, "Y": 0.0 }
+    },
+    {
+      "ChildId": "8f6f169b-0b45-45c4-bd0a-48c46e36a880"/*OrbitCamera*/,
+      "Comment": "Drag in the output view to orbit around the splat.",
+      "Position": { "X": 570.0, "Y": 120.0 }
+    },
+    {
+      "ChildId": "aa0a22b5-f042-43c9-b417-6c59258e58d4"/*ReuseCamera*/,
+      "Position": { "X": 760.0, "Y": 0.0 }
+    },
+    {
+      "ChildId": "d2b48814-c1af-4ea0-a6cc-c567d6d5932f"/*RenderTarget*/,
+      "Position": { "X": 950.0, "Y": 0.0 }
+    }
+  ],
+  "OutputUis": [
+    {
+      "OutputId": "2cedb866-1259-4df0-8b52-f61c9cb0a59e"/*Output*/,
+      "Position": { "X": 1140.0, "Y": 0.0 }
+    }
+  ]
+}
