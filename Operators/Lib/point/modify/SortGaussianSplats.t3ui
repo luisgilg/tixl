@@ -1,0 +1,684 @@
+{
+  "FormatVersion": 3,
+  "Id": "8b3a194b-1afb-46cd-b5a9-5dfe781525dc"/*SortGaussianSplats*/,
+  "Description": "Sorts Gaussian Splat points back-to-front by camera-view depth. It normally uses the active EvaluationContext camera; connect CameraReference only as an explicit override.",
+  "SymbolTags": "8",
+  "InputUis": [
+    {
+      "InputId": "9370c5d1-a187-4eb2-b90f-655d1f32e25c"/*CameraReference*/,
+      "Description": "Optional camera override. Leave unconnected to use the active EvaluationContext camera.",
+      "Position": {
+        "X": 1988.8242,
+        "Y": 2108.0764
+      }
+    },
+    {
+      "InputId": "6e6b2f80-76c4-4f65-b994-ada4f3248d0e"/*Points*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": 72.73157,
+        "Y": 1981.5653
+      }
+    },
+    {
+      "InputId": "0055e9b7-c9de-469b-a8be-e865f5ad4532"/*Ascending*/,
+      "Position": {
+        "X": 1320.2185,
+        "Y": 1949.4088
+      }
+    },
+    {
+      "InputId": "a138c621-5f56-4f31-9d9d-5e4e2c6ad0d6"/*SortingSpeed*/,
+      "Position": {
+        "X": -7.88208,
+        "Y": 1482.9962
+      },
+      "Scale": 0.01
+    }
+  ],
+  "SymbolChildUis": [
+    {
+      "ChildId": "03c45ee2-d8a3-4574-9b1a-2e48f3740d48"/*IntToFloat*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": -348.37964,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "04c5d74c-5131-4cd9-b1a3-a543f4c2b4be"/*MaxInt*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 692.1168,
+        "Y": 1482.9962
+      }
+    },
+    {
+      "ChildId": "07dff3f1-c921-4c34-88e6-a60781f3b7c8"/*IntValue*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 552.11694,
+        "Y": 1587.9962
+      }
+    },
+    {
+      "ChildId": "09f094cd-198f-4ca0-a823-9ad702499373"/*Int2*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3269.467,
+        "Y": 2091.2573
+      }
+    },
+    {
+      "ChildId": "0dd05e1e-280c-4f05-9dc0-b3e1eccf9366"/*Div*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 71.61932,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "17678685-ef34-4507-9f58-723ccf857a13"/*HasIntChanged*/,
+      "Position": {
+        "X": 1320.2186,
+        "Y": 1664.0851
+      }
+    },
+    {
+      "ChildId": "1aa00d84-9f40-4d3c-866b-5b190d5d7a3b"/*BoolToInt*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 832.1169,
+        "Y": 1622.996
+      }
+    },
+    {
+      "ChildId": "1ece8fda-23c8-4751-97b8-9e3cf92277e9"/*IntToFloat*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 272.11792,
+        "Y": 1447.9962
+      }
+    },
+    {
+      "ChildId": "377da650-c423-4143-8135-0d6209d513a8"/*CompareInt*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 832.1169,
+        "Y": 1552.9962
+      }
+    },
+    {
+      "ChildId": "3859b23f-f971-4a3a-905d-8f2b9b638d68"/*ComputeShaderStage*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 2539.1484,
+        "Y": 2472.2957
+      }
+    },
+    {
+      "ChildId": "39183f7f-4e0c-4f4f-bc53-6f4c492751eb"/*UavFromTexture2d*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3831.177,
+        "Y": 1906.0295
+      }
+    },
+    {
+      "ChildId": "3c69d832-a0c5-41ff-8e2e-b1584847e9fa"/*IntValue*/,
+      "Position": {
+        "X": 544.6594,
+        "Y": 1757.502
+      }
+    },
+    {
+      "ChildId": "40582684-106d-4f78-aa86-58f43eb891bc"/*Multiply*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 412.11792,
+        "Y": 1447.9962
+      }
+    },
+    {
+      "ChildId": "42121e58-5121-42cf-ac28-ccd240044976"/*FloatToInt*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 692.1168,
+        "Y": 1447.9962
+      }
+    },
+    {
+      "ChildId": "42c8fffd-d8d8-4ac3-b0c9-27649d5ca215"/*IntValue*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 552.11694,
+        "Y": 1517.9952
+      }
+    },
+    {
+      "ChildId": "444fc1cc-b34c-43a3-8ebc-01b036264bab"/*Add*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": -208.38062,
+        "Y": 1076.6018
+      }
+    },
+    {
+      "ChildId": "491fc1f1-d1f3-4239-a91f-69f764df5c36"/*Round*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 211.6203,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "4a88882a-688f-410b-9749-93c85f00e7b1"/*ComputeShaderStage*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3971.177,
+        "Y": 1731.0295
+      }
+    },
+    {
+      "ChildId": "54180686-6a08-4832-bd0d-36986e862575"/*SortingSpeed*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 132.1178,
+        "Y": 1482.9962
+      }
+    },
+    {
+      "ChildId": "5435ecaa-8d2c-4d47-b03a-02f256389c66"/*TotalStepCount*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 351.62036,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "5a16ad93-48bd-4543-837c-049b2d00a681"/*Int2Components*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3482.14,
+        "Y": 1767.9985
+      }
+    },
+    {
+      "ChildId": "5d76cd92-a85e-4936-9c23-d3eaed9a660f"/*Texture2d*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3664.1836,
+        "Y": 2008.97
+      }
+    },
+    {
+      "ChildId": "6f1809e7-c83e-4255-8102-cbf605a01d83"/*Round*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 552.11694,
+        "Y": 1447.9962
+      }
+    },
+    {
+      "ChildId": "7299ede8-6e71-43a0-a46d-86644ab599c5"/*Multiply*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": -68.38074,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "72b7dc40-e056-4f38-8af6-2294e9b725b4"/*BoolToInt*/,
+      "Position": {
+        "X": 1460.2185,
+        "Y": 1949.4088
+      }
+    },
+    {
+      "ChildId": "79c6bfeb-c8a7-4fb9-a7e2-4c20db8691d3"/*Reset*/,
+      "Position": {
+        "X": 1460.2186,
+        "Y": 1559.0851
+      }
+    },
+    {
+      "ChildId": "79e3f7a9-987f-4502-9608-64455b1a42e6"/*Remap*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 272.11792,
+        "Y": 1482.9962
+      }
+    },
+    {
+      "ChildId": "7d9d5bbb-3b6d-47a8-9f46-866775d773ff"/*CalcDispatchCount*/,
+      "SectionId": "2b1c9ca0-378e-47d0-aecc-02dfba67f4ac",
+      "Position": {
+        "X": 2191.041,
+        "Y": 1514.5211
+      }
+    },
+    {
+      "ChildId": "80d8723d-1f94-455f-8926-7c4b6ac756c8"/*IntValue*/,
+      "Position": {
+        "X": 1067.777,
+        "Y": 1690.8695
+      }
+    },
+    {
+      "ChildId": "8c2c2a2c-9093-400f-8d73-a942d6990fda"/*ComputeShaderStage*/,
+      "SectionId": "2b1c9ca0-378e-47d0-aecc-02dfba67f4ac",
+      "Position": {
+        "X": 2547.0566,
+        "Y": 1495.6338
+      }
+    },
+    {
+      "ChildId": "907e15ef-3049-4a7a-9ee2-21741c2128db"/*_TransformsCBuffer*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 2174.9116,
+        "Y": 2081.2786
+      }
+    },
+    {
+      "ChildId": "97089e85-f42c-4b1f-a588-433eb38e556e"/*CountInt*/,
+      "Position": {
+        "X": 404.65945,
+        "Y": 1722.502
+      }
+    },
+    {
+      "ChildId": "9805b6ee-db58-44db-905b-b4f78e601469"/*ComputeShader*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 2046.8607,
+        "Y": 2458.4392
+      }
+    },
+    {
+      "ChildId": "9a0d338e-f210-4e7f-86d5-c944cb283c50"/*Pow*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": -33.687378,
+        "Y": 634.2096
+      }
+    },
+    {
+      "ChildId": "9a6df965-241a-4bcf-aa04-3ba3b06f20c6"/*ExecuteTextureUpdate*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3971.177,
+        "Y": 1976.029
+      }
+    },
+    {
+      "ChildId": "9c52319e-943d-4bac-baa7-7fe2a412e2dd"/*CalcDispatchCount*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 2186.8608,
+        "Y": 2493.4392
+      }
+    },
+    {
+      "ChildId": "9ffb6b3a-38b7-4453-9390-7b45a3da7e6a"/*FloatToInt*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": 106.31262,
+        "Y": 634.2096
+      }
+    },
+    {
+      "ChildId": "a10f02e8-1481-413b-b539-69940fea7768"/*PickInt*/,
+      "Position": {
+        "X": 684.6594,
+        "Y": 1722.5024
+      }
+    },
+    {
+      "ChildId": "a3c943fc-d50d-4add-b5ab-f055e31317b8"/*GetBufferComponents*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 1671.0845,
+        "Y": 2401.533
+      }
+    },
+    {
+      "ChildId": "a3f1209e-35e3-4af2-b4b3-f35da4065aa8"/*GetSRVProperties*/,
+      "Position": {
+        "X": 212.73187,
+        "Y": 2016.5653
+      }
+    },
+    {
+      "ChildId": "a50a47d2-c266-4afd-b860-e2bea6a1ec17"/*GetBufferComponents*/,
+      "Position": {
+        "X": 212.73187,
+        "Y": 1981.5653
+      }
+    },
+    {
+      "ChildId": "a9da3552-d49b-454b-8dfe-f15eb822e40a"/*IntValue*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 351.62036,
+        "Y": 1076.6018
+      }
+    },
+    {
+      "ChildId": "aa967470-524a-4889-8ef5-054381f4be5d"/*IntsToBuffer*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3622.14,
+        "Y": 1767.9985
+      }
+    },
+    {
+      "ChildId": "ab2f1754-7eb2-40d4-91a3-8b09496140fa"/*TotalPassCount*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 631.6204,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "ade30492-f176-4d9a-b84b-1bd350eb17a1"/*IndexBuffer*/,
+      "Position": {
+        "X": 1290.662,
+        "Y": 2088.88
+      }
+    },
+    {
+      "ChildId": "afd85d08-5857-43b5-87e7-eaeeb2310aaa"/*IntsToBuffer*/,
+      "Position": {
+        "X": 1830.3031,
+        "Y": 1774.2863
+      }
+    },
+    {
+      "ChildId": "b0d63693-8c4a-4be8-a9ea-3dcb7e891973"/*PassIndexStart*/,
+      "Position": {
+        "X": 824.6594,
+        "Y": 1722.5024
+      }
+    },
+    {
+      "ChildId": "b10775cd-0065-4fa2-8129-0ad4e2310123"/*Execute*/,
+      "Position": {
+        "X": 2861.268,
+        "Y": 2186.1367
+      }
+    },
+    {
+      "ChildId": "b961f23e-cfe2-4fce-8613-a7bec23b8314"/*Ceil*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": -173.68738,
+        "Y": 669.2095
+      }
+    },
+    {
+      "ChildId": "be4bddb2-f962-416f-bdd8-ad1902bdb9f8"/*DivInt*/,
+      "SectionId": "2b1c9ca0-378e-47d0-aecc-02dfba67f4ac",
+      "Position": {
+        "X": 2051.0405,
+        "Y": 1549.5211
+      }
+    },
+    {
+      "ChildId": "c29654ee-5af6-4120-8590-30c6ce32478f"/*IntToFloat*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": -453.68665,
+        "Y": 669.2095
+      }
+    },
+    {
+      "ChildId": "c4c530d3-4eec-4548-9c26-bd06f1c92b96"/*ExecuteBufferUpdate*/,
+      "Position": {
+        "X": 2861.268,
+        "Y": 2256.1367
+      }
+    },
+    {
+      "ChildId": "c62b7d3b-d9d2-47b1-9b38-9fdaf420b4e1"/*GetBufferComponents*/,
+      "Position": {
+        "X": 1290.662,
+        "Y": 2123.88
+      }
+    },
+    {
+      "ChildId": "c99316de-99eb-43b4-b724-43f63a5644eb"/*ComputeShader*/,
+      "SectionId": "2b1c9ca0-378e-47d0-aecc-02dfba67f4ac",
+      "Position": {
+        "X": 2051.0405,
+        "Y": 1479.5211
+      }
+    },
+    {
+      "ChildId": "cb2191a1-8b6d-48d9-a33f-116877e0414b"/*ComputeShader*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3482.14,
+        "Y": 1646.8363
+      }
+    },
+    {
+      "ChildId": "d8899cb8-f200-4748-b3ae-24dd9a797eba"/*HasIntChanged*/,
+      "Position": {
+        "X": 1320.2188,
+        "Y": 1629.0851
+      }
+    },
+    {
+      "ChildId": "d950864f-89c8-497b-b546-b637f1dacf03"/*Value*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": -173.68738,
+        "Y": 634.2096
+      }
+    },
+    {
+      "ChildId": "d9ce326c-8065-43e7-9a99-70b5e1cb2719"/*Log*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": -208.38062,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "e0872200-fcbe-464c-828b-f9237a539db6"/*Any*/,
+      "Position": {
+        "X": 1460.2186,
+        "Y": 1594.0851
+      }
+    },
+    {
+      "ChildId": "e2940a84-0f6c-4b7e-85b7-fc7958c37aef"/*CalcInt2DispatchCount*/,
+      "SectionId": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Position": {
+        "X": 3622.14,
+        "Y": 1681.8363
+      }
+    },
+    {
+      "ChildId": "e2a28cd6-023f-4434-af29-ebf5de1aa9f9"/*InputBufferSize*/,
+      "Position": {
+        "X": 1460.2185,
+        "Y": 1903.5162
+      }
+    },
+    {
+      "ChildId": "e4b98dac-5f41-4aa2-8a86-c035843c5995"/*MinInt*/,
+      "SectionId": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Position": {
+        "X": 692.1168,
+        "Y": 1552.9962
+      }
+    },
+    {
+      "ChildId": "e4cc7db6-8e55-4ab0-8b24-0254332a2e0c"/*StructuredBufferWithViews*/,
+      "SectionId": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Position": {
+        "X": 1671.0845,
+        "Y": 2366.5325
+      }
+    },
+    {
+      "ChildId": "ee4a1877-2b8b-453f-afc0-624ad3fe1e19"/*MaxInt*/,
+      "SectionId": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Position": {
+        "X": 491.62042,
+        "Y": 1041.6018
+      }
+    },
+    {
+      "ChildId": "ee97f4d5-7b11-46d5-92e9-9ddf58fd9788"/*BoolToInt*/,
+      "Position": {
+        "X": 1690.3031,
+        "Y": 1809.2863
+      }
+    },
+    {
+      "ChildId": "efe4eddb-d730-4526-b805-83d4e137c572"/*Log*/,
+      "SectionId": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Position": {
+        "X": -313.68738,
+        "Y": 669.2095
+      }
+    },
+    {
+      "ChildId": "f78528cc-5afa-45d3-a20b-bd98cca18eb1"/*FrameIndex*/,
+      "Position": {
+        "X": 544.6594,
+        "Y": 1722.502
+      }
+    }
+  ],
+  "OutputUis": [
+    {
+      "OutputId": "ec7dc2b8-5ab0-45a5-b6d4-dd0961ec3155"/*Output*/,
+      "Position": {
+        "X": 2861.268,
+        "Y": 2326.1367
+      }
+    },
+    {
+      "OutputId": "df294458-08b5-4f1d-89f7-cf90fed96a10"/*DebugView*/,
+      "Position": {
+        "X": 3971.177,
+        "Y": 2046.029
+      }
+    }
+  ],
+  "Sections": [
+    {
+      "Id": "2b1c9ca0-378e-47d0-aecc-02dfba67f4ac",
+      "Label": "Pass1: MainSort",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": 1991.0405,
+        "Y": 1359.5211
+      },
+      "Size": {
+        "X": 726.0161,
+        "Y": 335.0
+      }
+    },
+    {
+      "Id": "8230aad5-290d-443b-a8ce-b07d943223b7",
+      "Label": "resize index buffer to next pow2 ",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": -503.92688,
+        "Y": 519.07935
+      },
+      "Size": {
+        "X": 789.9995,
+        "Y": 300.0
+      }
+    },
+    {
+      "Id": "989486c7-4252-425e-9145-fc4b22e7d4f8",
+      "Title": "full sort requires log2(N)*(1+log2(N))/2 iterations\npartial sort (sort speed<1) will distribute it over several frames",
+      "Label": "partial sort",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": -101.21265,
+        "Y": 1326.832
+      },
+      "Size": {
+        "X": 1147.5415,
+        "Y": 349.63776
+      }
+    },
+    {
+      "Id": "da157351-831c-42e2-abc3-e67f782c5690",
+      "Label": "Pass2: Sorting LookUp",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": 1623.3145,
+        "Y": 2072.1042
+      },
+      "Size": {
+        "X": 1093.7422,
+        "Y": 715.7678
+      }
+    },
+    {
+      "Id": "dd103770-4ff0-4649-801f-dcb2a80b758e",
+      "Label": "calc total amount of passes required for full sort",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": -397.54077,
+        "Y": 885.24646
+      },
+      "Size": {
+        "X": 1258.3804,
+        "Y": 306.2378
+      }
+    },
+    {
+      "Id": "dd8cf56d-4115-49d6-a48d-6bb8bb6f23a5",
+      "Label": "debug",
+      "Color": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6,
+        "W": 1.0
+      },
+      "Position": {
+        "X": 3248.824,
+        "Y": 1491.1982
+      },
+      "Size": {
+        "X": 972.417,
+        "Y": 675.24194
+      }
+    }
+  ]
+}
