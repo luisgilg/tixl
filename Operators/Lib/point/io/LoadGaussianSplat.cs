@@ -1,8 +1,5 @@
 #nullable enable
 using System.Buffers.Binary;
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("Core.Tests")]
 
 namespace Lib.point.io;
 

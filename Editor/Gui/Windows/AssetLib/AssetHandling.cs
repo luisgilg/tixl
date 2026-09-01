@@ -55,6 +55,17 @@ internal static class AssetHandling
                                        Subfolders = ["geometry","mesh","meshes","gltf"],
                                    });
 
+        AssetType.RegisterType(new AssetType("Geometry", [
+                                       FileExtensionRegistry.GetUniqueId("ply"),
+                                       FileExtensionRegistry.GetUniqueId("spz"),
+                                   ])
+                                   {
+                                       PrimaryOperators = [new Guid("740960bb-9029-463f-9543-fda43e48ff17")], // LoadGaussianSplat
+                                       Color = UiColors.ColorForGpuData,
+                                       IconId = (uint)Icon.FileGeometry,
+                                       Subfolders = ["geometry","mesh","meshes"],
+                                   });
+
         AssetType.RegisterType(Images);
         // Extensions match what the bundled FFmpeg build (LGPL, 7.x) demuxes and decodes:
         // H.264/HEVC/AV1/VP8/VP9/MPEG-2/4/VC-1 plus the editing codecs (ProRes, DNxHD, HAP, CineForm, FFV1).

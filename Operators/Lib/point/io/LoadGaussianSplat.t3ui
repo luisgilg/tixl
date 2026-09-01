@@ -1,7 +1,7 @@
 {
   "FormatVersion": 3,
   "Id": "740960bb-9029-463f-9543-fda43e48ff17"/*LoadGaussianSplat*/,
-  "Description": "Loads a Nerfstudio Gaussian Splat PLY as a TiXL point buffer.\n\nThe loader supports the binary little-endian Nerfstudio 1.1.5 vertex layout and maps position, rotation, scale, opacity, and DC color coefficients to TiXL Point attributes. It preserves the source coordinate system and ignores view-dependent SH coefficients for this MVP.\n\n[DrawPoints] or [DrawBillboards] can be used to preview the loaded points.",
+  "Description": "Loads a Nerfstudio Gaussian Splat PLY or SPZ as a TiXL point buffer.\n\nThe loader supports the binary little-endian Nerfstudio 1.1.5 vertex layout and SPZ v4, mapping position, rotation, scale, opacity, and DC color coefficients to TiXL Point attributes. It preserves the source coordinate system and ignores view-dependent SH coefficients for this MVP.\n\n[DrawPoints] or [DrawBillboards] can be used to preview the loaded points.",
   "SymbolTags": "8",
   "InputUis": [
     {
@@ -11,9 +11,9 @@
         "Y": 0.0
       },
       "GroupTitle": "File",
-      "Description": "The Nerfstudio Gaussian Splat PLY file to load.",
+      "Description": "The Nerfstudio Gaussian Splat PLY or SPZ file to load.",
       "Usage": "FilePath",
-      "FileFilter": "ply"
+      "FileFilter": "ply, spz"
     }
   ],
   "SymbolChildUis": [],
