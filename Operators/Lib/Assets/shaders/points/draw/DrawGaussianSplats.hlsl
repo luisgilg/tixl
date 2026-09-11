@@ -6,9 +6,7 @@ static const float2 Corners[] =
     float2(-1, -1),
     float2(1, -1),
     float2(1, 1),
-    float2(1, 1),
     float2(-1, 1),
-    float2(-1, -1),
 };
 
 cbuffer Transforms : register(b0)
@@ -88,15 +86,13 @@ float NormalizedExp(float x)
     return (exp(x * -4) - Exp4) * InvExp4;
 }
 
-psInput vsMain(uint id : SV_VertexID)
+psInput vsMain(uint cornerId : SV_VertexID, uint splatId : SV_InstanceID)
 {
     psInput output;
 
-    uint pointId = id / 6;
-    uint cornerId = id % 6;
     float2 corner = Corners[cornerId];
 
-    Point p = Points[pointId];
+    Point p = Points[splatId];
     float3 centerObject = p.Position;
     float4 centerCamera = mul(float4(centerObject, 1), ObjectToCamera);
     bool isVisibleDepth = centerCamera.z < -max(NearDepth, 0.0001);

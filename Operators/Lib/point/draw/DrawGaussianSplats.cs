@@ -56,6 +56,8 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         var rasterizer = deviceContext.Rasterizer;
 
         _previousTopology = iaStage.PrimitiveTopology;
+        iaStage.GetIndexBuffer(out _previousIndexBuffer, out _previousIndexFormat, out _previousIndexOffset);
+        _previousInputLayout = iaStage.InputLayout;
         _previousVertexShader = vsStage.Get();
         _previousPixelShader = psStage.Get();
         _previousVertexShaderResources = vsStage.GetShaderResources(0, 1);
@@ -67,6 +69,8 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         _previousRasterizerState = rasterizer.State;
 
         iaStage.PrimitiveTopology = PrimitiveTopology.TriangleList;
+        iaStage.InputLayout = null;
+        iaStage.SetIndexBuffer(_quadIndexBuffer, Format.R16_UInt, 0);
 
         vsStage.Set(vertexShader);
         psStage.Set(pixelShader);
@@ -79,7 +83,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         outputMerger.SetDepthStencilState(GetDepthStencilState());
         rasterizer.State = _rasterizerState;
 
-        deviceContext.Draw(pointCount * VerticesPerSplat, 0);
+        deviceContext.DrawIndexedInstanced(IndicesPerSplat, pointCount, 0, 0, 0);
     }
 
     private void Restore(EvaluationContext context)
@@ -90,6 +94,12 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         var psStage = deviceContext.PixelShader;
 
         iaStage.PrimitiveTopology = _previousTopology;
+        iaStage.SetIndexBuffer(_previousIndexBuffer, _previousIndexFormat, _previousIndexOffset);
+        iaStage.InputLayout = _previousInputLayout;
+        _previousIndexBuffer?.Dispose();
+        _previousIndexBuffer = null;
+        _previousInputLayout?.Dispose();
+        _previousInputLayout = null;
         vsStage.Set(_previousVertexShader);
         psStage.Set(_previousPixelShader);
 
@@ -120,6 +130,14 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
 
     private void EnsureResources()
     {
+        if (_quadIndexBuffer == null || _quadIndexBuffer.IsDisposed)
+        {
+            // Preserve the original triangle order: (0, 1, 2), (2, 3, 0).
+            // Corners come from SV_VertexID; no vertex buffer or input layout is needed.
+            _quadIndexBuffer = Buffer.Create(ResourceManager.Device, BindFlags.IndexBuffer,
+                                             new ushort[] { 0, 1, 2, 2, 3, 0 }, usage: ResourceUsage.Immutable);
+        }
+
         if (_transformBuffer == null || _transformBuffer.IsDisposed)
         {
             _transformBuffer = CreateConstantBuffer<TransformBufferLayout>();
@@ -256,6 +274,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             _pixelShader.Dispose();
             _transformBuffer?.Dispose();
             _paramsBuffer?.Dispose();
+            _quadIndexBuffer?.Dispose();
             _depthReadOnlyState?.Dispose();
             _rasterizerState?.Dispose();
             _premultipliedBlendState?.Dispose();
@@ -290,19 +309,24 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         PointScaleOrientation,
     }
 
-    private const int VerticesPerSplat = 6;
+    private const int IndicesPerSplat = 6;
     private const string ShaderPath = "Lib:shaders/points/draw/DrawGaussianSplats.hlsl";
 
     private readonly Resource<VertexShader> _vertexShader;
     private readonly Resource<PixelShader> _pixelShader;
     private Buffer? _transformBuffer;
     private Buffer? _paramsBuffer;
+    private Buffer? _quadIndexBuffer;
     private DepthStencilState? _depthReadOnlyState;
     private RasterizerState? _rasterizerState;
     private BlendState? _premultipliedBlendState;
     private readonly Buffer?[] _constantBuffers = new Buffer?[3];
 
     private PrimitiveTopology _previousTopology;
+    private Buffer? _previousIndexBuffer;
+    private Format _previousIndexFormat;
+    private int _previousIndexOffset;
+    private InputLayout? _previousInputLayout;
     private SharpDX.Direct3D11.VertexShader? _previousVertexShader;
     private SharpDX.Direct3D11.PixelShader? _previousPixelShader;
     private ShaderResourceView[] _previousVertexShaderResources = [];
