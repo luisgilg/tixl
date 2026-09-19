@@ -3,6 +3,10 @@
   "Id": "85d6ce29-d4f8-4bb3-84ef-05f88ce269c6"/*DrawGaussianSplats*/,
   "Inputs": [
     {
+      "Id": "af76fe1a-e4b0-4def-8efb-a91375e598d2"/*SortedIndices*/,
+      "DefaultValue": null
+    },
+    {
       "Id": "138a7e18-6cfe-4afb-8401-02e28a27087a"/*Alpha*/,
       "DefaultValue": 1.0
     },

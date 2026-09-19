@@ -34,7 +34,7 @@ cbuffer Params : register(b1)
     float MaxRadiusPixels;
     float ConstantWorldScale;
     float MaxWorldScale;
-    float _padding0;
+    uint UseSortedIndices;
     float _padding1;
     float _padding2;
     float2 ScreenSize;
@@ -57,6 +57,7 @@ struct psInput
 };
 
 StructuredBuffer<Point> Points : t0;
+StructuredBuffer<uint> SortedIndices : register(t1);
 
 float4 InvalidPosition()
 {
@@ -86,12 +87,13 @@ float NormalizedExp(float x)
     return (exp(x * -4) - Exp4) * InvExp4;
 }
 
-psInput vsMain(uint cornerId : SV_VertexID, uint splatId : SV_InstanceID)
+psInput vsMain(uint cornerId : SV_VertexID, uint instanceId : SV_InstanceID)
 {
     psInput output;
 
     float2 corner = Corners[cornerId];
 
+    uint splatId = UseSortedIndices != 0 ? SortedIndices[instanceId] : instanceId;
     Point p = Points[splatId];
     float3 centerObject = p.Position;
     float4 centerCamera = mul(float4(centerObject, 1), ObjectToCamera);

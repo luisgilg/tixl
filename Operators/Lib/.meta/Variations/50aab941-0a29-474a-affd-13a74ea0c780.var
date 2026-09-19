@@ -42,6 +42,17 @@
           "e0f4333d-8bee-4f9e-bb29-9f76bd72e61f": 180.0
         }
       }
+    },
+    {
+      "Id": "ca1c73c0-0ad8-4af5-ac89-f4fcb2855dcc",
+      "IsPreset": true,
+      "ActivationIndex": 3,
+      "Title": "default",
+      "PosOnCanvas": {
+        "X": 0.0,
+        "Y": 122.55056
+      },
+      "ParameterSetsForChildIds": {}
     }
   ]
 }

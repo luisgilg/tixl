@@ -26,6 +26,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
 
     private void Update(EvaluationContext context)
     {
+        _stateCaptured = false;
         var points = GPoints.GetValue(context);
         if (points?.Buffer == null || points.Srv == null)
         {
@@ -38,6 +39,16 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             return;
         }
 
+        var sortedIndices = SortedIndices.HasInputConnections ? SortedIndices.GetValue(context) : null;
+        var useSortedIndices = SortedIndices.HasInputConnections;
+        if (useSortedIndices && (sortedIndices?.Srv == null || sortedIndices.Buffer == null
+                                 || sortedIndices.Buffer.Description.StructureByteStride != sizeof(uint)
+                                 || sortedIndices.Srv.Description.Buffer.ElementCount < pointCount))
+        {
+            Log.Warning("SortedIndices must contain at least one uint index per Point.", this);
+            return;
+        }
+
         EnsureResources();
 
         if (!_vertexShader.TryGetValue(context, out var vertexShader) ||
@@ -46,7 +57,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
             return;
         }
 
-        UpdateConstantBuffers(context);
+        UpdateConstantBuffers(context, useSortedIndices);
 
         var deviceContext = ResourceManager.Device.ImmediateContext;
         var iaStage = deviceContext.InputAssembler;
@@ -60,7 +71,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         _previousInputLayout = iaStage.InputLayout;
         _previousVertexShader = vsStage.Get();
         _previousPixelShader = psStage.Get();
-        _previousVertexShaderResources = vsStage.GetShaderResources(0, 1);
+        _previousVertexShaderResources = vsStage.GetShaderResources(0, 2);
         _previousPixelShaderResources = psStage.GetShaderResources(0, 1);
         _previousVertexConstantBuffers = vsStage.GetConstantBuffers(0, 3);
         _previousPixelConstantBuffers = psStage.GetConstantBuffers(0, 3);
@@ -68,6 +79,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         _previousDepthStencilState = outputMerger.DepthStencilState;
         _previousRasterizerState = rasterizer.State;
 
+        _stateCaptured = true;
         iaStage.PrimitiveTopology = PrimitiveTopology.TriangleList;
         iaStage.InputLayout = null;
         iaStage.SetIndexBuffer(_quadIndexBuffer, Format.R16_UInt, 0);
@@ -75,6 +87,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         vsStage.Set(vertexShader);
         psStage.Set(pixelShader);
         vsStage.SetShaderResource(0, points.Srv);
+        vsStage.SetShaderResource(1, useSortedIndices ? sortedIndices!.Srv : null);
         psStage.SetShaderResource(0, points.Srv);
         vsStage.SetConstantBuffers(0, 3, _constantBuffers);
         psStage.SetConstantBuffers(0, 3, _constantBuffers);
@@ -88,6 +101,10 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
 
     private void Restore(EvaluationContext context)
     {
+        if (!_stateCaptured)
+            return;
+
+        _stateCaptured = false;
         var deviceContext = ResourceManager.Device.ImmediateContext;
         var iaStage = deviceContext.InputAssembler;
         var vsStage = deviceContext.VertexShader;
@@ -106,6 +123,8 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         if (_previousVertexShaderResources.Length > 0)
         {
             vsStage.SetShaderResources(0, _previousVertexShaderResources.Length, _previousVertexShaderResources);
+            _previousVertexShaderResources[1]?.Dispose();
+            _previousVertexShaderResources[1] = null!;
         }
 
         if (_previousPixelShaderResources.Length > 0)
@@ -190,7 +209,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         _constantBuffers[2] = null;
     }
 
-    private void UpdateConstantBuffers(EvaluationContext context)
+    private void UpdateConstantBuffers(EvaluationContext context, bool useSortedIndices)
     {
         var transformData = TryGetCamera(context, out var camera)
                                 ? new TransformBufferLayout(camera.CameraToClipSpace, camera.WorldToCamera, context.ObjectToWorld)
@@ -207,6 +226,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
                                  MaxRadiusPixels = MaxRadiusPixels.GetValue(context),
                                  ConstantWorldScale = ConstantWorldScale.GetValue(context),
                                  MaxWorldScale = MaxWorldScale.GetValue(context),
+                                 UseSortedIndices = useSortedIndices ? 1u : 0u,
                                  ScreenSize = new Vector2(context.RequestedResolution.Width, context.RequestedResolution.Height),
                              };
 
@@ -295,7 +315,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
         public float MaxRadiusPixels;
         public float ConstantWorldScale;
         public float MaxWorldScale;
-        private float _padding0;
+        public uint UseSortedIndices;
         private float _padding1;
         private float _padding2;
         public Vector2 ScreenSize;
@@ -322,6 +342,7 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
     private BlendState? _premultipliedBlendState;
     private readonly Buffer?[] _constantBuffers = new Buffer?[3];
 
+    private bool _stateCaptured;
     private PrimitiveTopology _previousTopology;
     private Buffer? _previousIndexBuffer;
     private Format _previousIndexFormat;
@@ -341,6 +362,9 @@ internal sealed class DrawGaussianSplats : Instance<DrawGaussianSplats>
 
     [Input(Guid = "43b623de-9edb-4bad-a633-880170d624ce")]
     public readonly InputSlot<BufferWithViews> GPoints = new();
+
+    [Input(Guid = "af76fe1a-e4b0-4def-8efb-a91375e598d2")]
+    public readonly InputSlot<BufferWithViews> SortedIndices = new();
 
     [Input(Guid = "48a01244-bdcd-40c4-b2bc-8c5cafcf6098")]
     public readonly InputSlot<Object> CameraReference = new();

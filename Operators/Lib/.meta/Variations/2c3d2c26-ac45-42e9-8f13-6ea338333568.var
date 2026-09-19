@@ -242,6 +242,65 @@
           "29587763-5456-4d33-bfd4-5d47b133f1cd": 1
         }
       }
+    },
+    {
+      "Id": "e37bd292-cf5f-4dfb-80cb-4c18c624d2b7",
+      "IsPreset": true,
+      "ActivationIndex": 13,
+      "Title": "defult_flame",
+      "PosOnCanvas": {
+        "X": 0.0,
+        "Y": 460.6517
+      },
+      "ParameterSetsForChildIds": {
+        "00000000-0000-0000-0000-000000000000": {
+          "e47e9e63-9c94-4c29-9555-2452fa498d57": {
+            "Gradient": {
+              "Interpolation": "Linear",
+              "Steps": [
+                {
+                  "Id": "f1397255-ca4a-4c0e-b118-93ae5c1318a4",
+                  "NormalizedPosition": 0.0,
+                  "Color": {
+                    "R": 0.010829926,
+                    "G": 0.0,
+                    "B": 1.0,
+                    "A": 1.0
+                  }
+                },
+                {
+                  "Id": "a166f0d6-c834-4c9b-8fce-6fce85f6a8c0",
+                  "NormalizedPosition": 0.49216643,
+                  "Color": {
+                    "R": 1.0,
+                    "G": 0.12233698,
+                    "B": 0.036469102,
+                    "A": 1.0
+                  }
+                },
+                {
+                  "Id": "899a0fad-f85d-45a4-8b8b-16a46fa37d79",
+                  "NormalizedPosition": 1.0,
+                  "Color": {
+                    "R": 1.0,
+                    "G": 0.9270953,
+                    "B": 0.07553655,
+                    "A": 1.0
+                  }
+                }
+              ]
+            }
+          },
+          "10d59d0f-a5a3-42e6-b874-345ab028978e": 2.0,
+          "5774969c-ef4d-482e-ab37-b3a84b09debb": false,
+          "7f3fe86d-f259-458a-908a-0a71d39ca678": false,
+          "8169be8f-cb35-4900-b462-f2139b412d59": 180.0,
+          "1c70e502-90cc-4285-92ca-ec3d200967eb": {
+            "X": 0.445,
+            "Y": 0.4
+          }
+        }
+      }
     }
   ]
 }

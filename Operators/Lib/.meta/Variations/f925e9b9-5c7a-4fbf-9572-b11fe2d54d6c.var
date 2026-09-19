@@ -1,0 +1,24 @@
+{
+  "Id": "f925e9b9-5c7a-4fbf-9572-b11fe2d54d6c",
+  "Variations": [
+    {
+      "Id": "7fde3edc-bb76-490c-ad00-1d497ddf1c08",
+      "IsPreset": true,
+      "ActivationIndex": 1,
+      "Title": "original_test_walk",
+      "PosOnCanvas": {
+        "X": 0.0,
+        "Y": 0.0
+      },
+      "ParameterSetsForChildIds": {
+        "00000000-0000-0000-0000-000000000000": {
+          "7ce4b12c-224c-41ad-a42d-770df1ee4a67": true,
+          "351e1da3-a8ab-4625-b7c6-0c14703a94d9": 0.18,
+          "a5f770ae-7f1d-4b45-93e9-d31ba7f62932": 90.0,
+          "23a45ab7-7f40-4f6d-91ff-5ecaf9ffe221": 0.12,
+          "e0326849-5e5b-41fb-b53e-0a2c0eafca12": 0.98
+        }
+      }
+    }
+  ]
+}

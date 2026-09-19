@@ -1,9 +1,14 @@
 {
   "FormatVersion": 3,
   "Id": "85d6ce29-d4f8-4bb3-84ef-05f88ce269c6"/*DrawGaussianSplats*/,
-  "Description": "Draws TiXL points as anisotropic Gaussian splats.\n\nThis MVP renderer consumes the standard Point buffer used by [LoadGaussianSplat], projects each point's orientation and scale into screen space, and evaluates a constant-color Gaussian footprint per pixel. Sorting and view-dependent SH lighting are intentionally left to later milestones.\n\nAKA: 3DGS, Gaussian Splatting",
+  "Description": "Draws TiXL points as anisotropic Gaussian splats.\n\nThis MVP renderer consumes the standard Point buffer used by [LoadGaussianSplat], projects each point's orientation and scale into screen space, and evaluates a constant-color Gaussian footprint per pixel. Accepts either sorted Points or original Points with optional SortedIndices. View-dependent SH lighting is not evaluated.\n\nAKA: 3DGS, Gaussian Splatting",
   "SymbolTags": "1",
   "InputUis": [
+    {
+      "InputId": "af76fe1a-e4b0-4def-8efb-a91375e598d2"/*SortedIndices*/,
+      "Description": "Optional uint indices from SortGaussianSplatsIndices. When connected, GPoints must contain the original Points. When disconnected, draws Points in buffer order.",
+      "Position": { "X": -200.0, "Y": -40.0 }
+    },
     {
       "InputId": "138a7e18-6cfe-4afb-8401-02e28a27087a"/*Alpha*/,
       "Position": {
