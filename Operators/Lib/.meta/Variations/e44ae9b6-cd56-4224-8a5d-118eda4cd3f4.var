@@ -66,6 +66,23 @@
           "9642f5c6-5ad2-4d35-a5ed-a3fde10817ae": 1.2
         }
       }
+    },
+    {
+      "Id": "c177df86-388b-485a-a3d9-b9fbb31e264a",
+      "IsPreset": true,
+      "ActivationIndex": 5,
+      "Title": "floris_low",
+      "PosOnCanvas": {
+        "X": 163.0,
+        "Y": 122.55056
+      },
+      "ParameterSetsForChildIds": {
+        "00000000-0000-0000-0000-000000000000": {
+          "38392c86-4a1b-4b6f-ac32-26920a73e1e2": 1.0,
+          "4ca2f43a-ed90-4388-ae6f-2687e85db5a6": 1.5,
+          "5a61994e-42c7-47e7-b0a5-5beb48f4a34b": 0.012
+        }
+      }
     }
   ]
 }
